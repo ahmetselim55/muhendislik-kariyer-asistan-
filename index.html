@@ -2,879 +2,205 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mühendislik Kariyer ve Beceri Yol Haritası Asistanı</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sokratik Mühendislik Öğrenme Asistanı</title>
   <style>
     :root {
-      --bg-dark: #090d16;
-      --card-bg: rgba(26, 34, 52, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #06b6d4;
-      --accent-violet: #8b5cf6;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --nav-bg: rgba(15, 23, 42, 0.85);
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #030712;
-      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
     }
-
-    /* Mobil Cihaz Çerçevesi (Masaüstünde telefon gibi görünür, mobilde tam ekrandır) */
-    .mobile-container {
+    .app-container {
+      background-color: var(--card-bg);
       width: 100%;
-      max-width: 430px;
-      height: 100vh;
-      max-height: 900px;
-      background: radial-gradient(circle at top right, #1e1b4b, var(--bg-dark) 60%);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      max-width: 480px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      padding: 24px;
+      box-sizing: border-box;
     }
-
-    @media (min-width: 480px) {
-      .mobile-container {
-        border-radius: 40px;
-        height: 860px;
-      }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
     }
-
-    /* Üst Durum Çubuğu / Header */
-    .app-header {
-      padding: 20px 20px 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--card-border);
+    .header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: var(--primary);
     }
-
-    .app-title-group h1 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #fff 30%, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .app-title-group span {
-      font-size: 0.75rem;
-      color: var(--accent-cyan);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .btn-icon {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: all 0.2s;
-    }
-
-    .btn-icon:active {
-      transform: scale(0.92);
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    /* Ana Ekran Kaydırma Alanı */
-    .screen-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      scrollbar-width: none;
-    }
-    .screen-content::-webkit-scrollbar {
+    .screen {
       display: none;
     }
-
-    /* Görünüm Geçiş Animasyonları */
-    .view {
-      display: none;
-      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .view.active {
+    .screen.active {
       display: block;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Giriş Ekranı Tasarımı */
-    .hero-banner {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.1));
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      padding: 22px 18px;
-      border-radius: 24px;
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .hero-banner h2 {
-      font-size: 1.35rem;
-      font-weight: 700;
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
       margin-bottom: 6px;
     }
-    .hero-banner p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .track-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .track-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .track-card:hover, .track-card:active {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.25);
-      background: rgba(35, 45, 68, 0.85);
-    }
-
-    .track-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      flex-shrink: 0;
-    }
-
-    .track-info {
-      flex: 1;
-    }
-
-    .track-info h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .track-info p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.3;
-    }
-
-    .track-arrow {
-      color: var(--text-muted);
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-
-    /* Detay Görünümü: İlerleme & Sekmeler */
-    .track-header-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .progress-bar-bg {
-      height: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
-      border-radius: 10px;
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-
-    /* Alt Sekme Çubuğu (Segmented Control) */
-    .tab-bar {
-      display: flex;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 4px;
-      border-radius: 16px;
-      border: 1px solid var(--card-border);
-      margin-bottom: 18px;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 10px 0;
-      font-size: 0.8rem;
-      font-weight: 700;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-
-    .tab-btn.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    /* 1. Yol Haritası Adımları */
-    .roadmap-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-    }
-
-    .roadmap-step {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-
-    .roadmap-step.completed {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(16, 185, 129, 0.06);
-    }
-
-    .step-checkbox {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid var(--text-muted);
-      margin-top: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-
-    .roadmap-step.completed .step-checkbox {
-      background: var(--accent-emerald);
-      border-color: var(--accent-emerald);
-    }
-
-    .step-checkbox::after {
-      content: '✓';
-      font-size: 13px;
-      color: #fff;
-      display: none;
-      font-weight: bold;
-    }
-
-    .roadmap-step.completed .step-checkbox::after {
-      display: block;
-    }
-
-    .step-details h4 {
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      font-weight: 700;
-    }
-
-    .roadmap-step.completed .step-details h4 {
-      text-decoration: line-through;
-      color: var(--text-muted);
-    }
-
-    .step-details p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* 2. Araçlar ve Teknolojiler */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .tool-badge {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .tool-badge .tool-name {
-      font-weight: 700;
-      font-size: 0.88rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tool-badge .tool-role {
-      font-size: 0.72rem;
-      color: var(--accent-cyan);
-    }
-
-    .tool-badge .tool-desc {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      line-height: 1.3;
-      margin-top: 2px;
-    }
-
-    /* 3. Bitirme Projeleri */
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .project-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
-
-    .project-title {
-      font-size: 0.98rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .difficulty-tag {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .diff-orta { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
-    .diff-ileri { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-
-    .project-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-bottom: 12px;
-    }
-
-    .project-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .stack-chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      padding: 3px 9px;
-      border-radius: 8px;
-      font-size: 0.72rem;
-      color: #cbd5e1;
-      font-weight: 500;
-    }
-
-    /* Alt Durum Butonu */
-    .action-btn {
+    select, input, textarea {
       width: 100%;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+    }
+    button {
+      width: 100%;
+      background-color: var(--primary);
       color: white;
       border: none;
-      padding: 14px;
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 0.9rem;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: opacity 0.2s;
+      transition: background-color 0.2s;
     }
-
-    .action-btn:active {
-      opacity: 0.85;
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+    .chat-box {
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 120px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .report-card {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
     }
   </style>
 </head>
 <body>
 
-  <div class="mobile-container">
-    <!-- Header -->
-    <header class="app-header">
-      <div id="header-back-btn" style="display: none;">
-        <button class="btn-icon" onclick="goHome()">←</button>
+  <div class="app-container">
+    
+    <!-- EKRAN 1: İhtiyaç ve Hedef Belirleme -->
+    <div id="screen1" class="screen active">
+      <div class="header">
+        <h2>Adım 1: Hedef ve Konu Seçimi</h2>
       </div>
-      <div class="app-title-group">
-        <span id="app-tag">MÜHENDİSLİK ATLASI</span>
-        <h1 id="screen-title">Kariyer Yolu Seçin</h1>
+      <label for="topic">Öğrenmek / Geliştirmek İstediğiniz Konu:</label>
+      <select id="topic">
+        <option value="Mikroişlemciler ve Embedded Sistemler">Mikroişlemciler ve Embedded Sistemler</option>
+        <option value="Python ve Arayüz Geliştirme">Python ve Arayüz Geliştirme</option>
+        <option value="Sinyal ve Sistem Analizi">Sinyal ve Sistem Analizi</option>
+      </select>
+
+      <label for="level">Mevcut Bilgi Seviyeniz:</label>
+      <select id="level">
+        <option value="Başlangıç">Başlangıç</option>
+        <option value="Orta Seviye">Orta Seviye</option>
+        <option value="İleri Seviye">İleri Seviye</option>
+      </select>
+
+      <button onclick="goToScreen2()">Öğrenmeye Başla</button>
+    </div>
+
+    <!-- EKRAN 2: Sokratik Etkileşim ve Düşündürme -->
+    <div id="screen2" class="screen">
+      <div class="header">
+        <h2>Adım 2: Sokratik Sorgulama</h2>
       </div>
-      <button class="btn-icon" onclick="resetProgress()" title="İlerlemeyi Sıfırla">↺</button>
-    </header>
+      <div class="chat-box" id="socraticQuestion">
+        <!-- JS ile soru buraya yüklenecek -->
+      </div>
+      <label for="userAnswer">Düşünceniz / Cevabınız:</label>
+      <textarea id="userAnswer" rows="3" placeholder="Doğrudan cevabı aramak yerine nasıl bir yaklaşım izlersiniz?"></textarea>
 
-    <!-- Ana İçerik / Ekranlar -->
-    <main class="screen-content">
+      <button onclick="goToScreen3()">Analizi Tamamla ve Raporla</button>
+    </div>
 
-      <!-- 1. GİRİŞ VE HEDEF SEÇİM EKRANI -->
-      <section id="view-home" class="view active">
-        <div class="hero-banner">
-          <h2>Geleceğini Şekillendir 🚀</h2>
-          <p>Uzmanlaşmak istediğin mühendislik alanını seç; gerekli yetkinlikler, adım adım yol haritası ve bitirme projelerine anında ulaş.</p>
-        </div>
+    <!-- EKRAN 3: Yol Haritası ve Gelişim Raporu -->
+    <div id="screen3" class="screen">
+      <div class="header">
+        <h2>Adım 3: Öğrenme Yol Haritası</h2>
+      </div>
+      <div class="report-card">
+        <p><strong>Seçilen Konu:</strong> <span id="summaryTopic"></span></p>
+        <p><strong>Seviye:</strong> <span id="summaryLevel"></span></p>
+      </div>
+      <h4>Sokratik Analiz Özeti:</h4>
+      <p id="summaryFeedback" style="font-size: 0.9rem; color: #374151;"></p>
+      
+      <button onclick="restartApp()" style="background-color: #4b5563;">Baştan Başla</button>
+    </div>
 
-        <div class="section-title">Popüler Mühendislik Alanları</div>
-
-        <div class="track-grid" id="track-buttons-container">
-          <!-- JS ile Dinamik Doldurulur -->
-        </div>
-      </section>
-
-      <!-- 2. DETAY VE YOL HARİTASI EKRANI -->
-      <section id="view-detail" class="view">
-        <div class="track-header-card">
-          <div class="progress-info">
-            <span>Öğrenim Yol Haritası İlerlemen</span>
-            <span id="progress-percent" style="color: var(--accent-cyan);">0%</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="progress-bar"></div>
-          </div>
-        </div>
-
-        <!-- Sekmeler -->
-        <div class="tab-bar">
-          <button class="tab-btn active" onclick="switchTab('roadmap')">🛣️ Adımlar</button>
-          <button class="tab-btn" onclick="switchTab('tools')">🛠️ Araçlar</button>
-          <button class="tab-btn" onclick="switchTab('projects')">🚀 Projeler</button>
-        </div>
-
-        <!-- Sekme 1: Yol Haritası -->
-        <div id="tab-roadmap" class="tab-content">
-          <div class="roadmap-list" id="roadmap-items"></div>
-        </div>
-
-        <!-- Sekme 2: Araçlar -->
-        <div id="tab-tools" class="tab-content" style="display: none;">
-          <div class="tools-grid" id="tools-items"></div>
-        </div>
-
-        <!-- Sekme 3: Projeler -->
-        <div id="tab-projects" class="tab-content" style="display: none;">
-          <div id="projects-items"></div>
-        </div>
-      </section>
-
-    </main>
   </div>
 
   <script>
-    // --- VERİ TABANI ---
-    const careerData = {
-      embedded: {
-        id: "embedded",
-        title: "Gömülü Sistemler",
-        subtitle: "Mikrodenetleyiciler, C/C++, IoT ve Donanım",
-        icon: "⚡",
-        color: "linear-gradient(135deg, #0284c7, #2563eb)",
-        tools: [
-          { name: "C / C++", role: "Temel Dil", desc: "Bellek yönetimi ve donanım kontrolü" },
-          { name: "STM32 / ARM", role: "Mikrodenetleyici", desc: "Sektör standardı 32-bit MCU ekosistemi" },
-          { name: "FreeRTOS", role: "İşletim Sistemi", desc: "Gerçek zamanlı görev planlama" },
-          { name: "Git & GitHub", role: "Sürüm Kontrolü", desc: "Kod takibi ve takım çalışması" },
-          { name: "Osiloskop / Mantık Analizörü", role: "Donanım Aracı", desc: "Sinyal doğrulama ve hata ayıklama" },
-          { name: "I2C, SPI, UART, CAN", role: "İletişim", desc: "Sensör ve çevre birim protokolleri" }
-        ],
-        roadmap: [
-          { id: "e1", title: "C Dili & Bellek Mimarisi", desc: "Pointer'lar, bitwise işlemleri, struct yapıları ve register seviyesinde programlama mantığını kavrayın." },
-          { id: "e2", title: "Temel Çevre Birimleri (Bare-Metal)", desc: "STM32 veya AVR üzerinde HAL/LL kütüphaneleriyle GPIO, Timer, ADC ve Kesmeleri (Interrupts) yapılandırın." },
-          { id: "e3", title: "Haberleşme Protokolleri", desc: "UART üzerinden bilgisayarla konuşun, SPI/I2C ile IMU ve OLED ekran sürücülerini sıfırdan yazın." },
-          { id: "e4", title: "RTOS & Eşzamanlılık", desc: "FreeRTOS ile Task, Queue, Semaphore ve Mutex mekanizmalarını kurarak gerçek zamanlı sistem tasarlayın." },
-          { id: "e5", title: "Gömülü Linux & IoT Dağıtımı", desc: "Raspberry Pi veya Yocto ile Embedded Linux derleyin; MQTT/BLE ile buluta veri aktarın." }
-        ],
-        projects: [
-          {
-            title: "CAN-Bus Tabanlı Araç Telemetri Cihazı",
-            difficulty: "İleri Seviye",
-            diffClass: "diff-ileri",
-            desc: "Otomobil OBD-II portuna bağlanan, STM32 ile RPM, hız ve hata kodlarını okuyup BLE üzerinden mobil ekrana aktaran donanım.",
-            stack: ["STM32", "CAN-Bus", "FreeRTOS", "Bluetooth Low Energy"]
-          },
-          {
-            title: "Endüstriyel Akıllı Titreşim & Sıcaklık Sensörü",
-            difficulty: "Orta Seviye",
-            diffClass: "diff-orta",
-            desc: "Fabrika motorlarının bozulmasını önceden tahmin eden, ultra düşük güç tüketimli ve MQTT protokolüyle haberleşen IoT düğümü.",
-            stack: ["ESP32", "C++", "MQTT", "Düşük Güç Modları"]
-          }
-        ]
-      },
-      ai: {
-        id: "ai",
-        title: "Yapay Zeka & Veri Bilimi",
-        subtitle: "Makine Öğrenmesi, LLM'ler ve Derin Öğrenme",
-        icon: "🧠",
-        color: "linear-gradient(135deg, #7c3aed, #db2777)",
-        tools: [
-          { name: "Python", role: "Ana Dil", desc: "Veri bilimi ve AI için endüstri standardı" },
-          { name: "PyTorch / TF", role: "Derin Öğrenme", desc: "Yapay sinir ağı modelleri geliştirme" },
-          { name: "Pandas & NumPy", role: "Veri İşleme", desc: "Vektörel hesaplama ve manipülasyon" },
-          { name: "Hugging Face", role: "LLM Ekosistemi", desc: "Açık kaynak transformatör modelleri" },
-          { name: "MLflow / Docker", role: "MLOps", desc: "Model versiyonlama ve ölçekleme" },
-          { name: "FastAPI", role: "Servis", desc: "Modelleri REST API olarak sunma" }
-        ],
-        roadmap: [
-          { id: "a1", title: "Python & Matematiksel Temeller", desc: "Lineer cebir, çok değişkenli kalkülüs, olasılık ve Python veri yapılarını pekiştirin." },
-          { id: "a2", title: "Veri Temizleme & Keşifçi Analiz (EDA)", desc: "NumPy, Pandas ve Seaborn kullanarak eksik verilerle başa çıkın ve anlamlı grafikler üretin." },
-          { id: "a3", title: "Klasik Makine Öğrenmesi (Scikit-Learn)", desc: "Regresyon, Karar Ağaçları, Random Forest ve kümeleme algoritmalarıyla tahmin modelleri kurun." },
-          { id: "a4", title: "Derin Öğrenme & Bilgisayarlı Görü / NLP", desc: "PyTorch ile CNN (Görüntü İşleme) ve RNN/Transformer mimarilerini kodlayın." },
-          { id: "a5", title: "RAG & LLM Entegrasyonu (MLOps)", desc: "LangChain ve vektör veritabanlarıyla özelleştirilmiş bilgi asistanları geliştirip canlıya alın." }
-        ],
-        projects: [
-          {
-            title: "Teknik Dökümanlar İçin RAG Destekli Chatbot",
-            difficulty: "İleri Seviye",
-            diffClass: "diff-ileri",
-            desc: "Mühendislik kılavuzlarını (PDF) okuyup vektör veri tabanında indeksleyen ve Türkçe soru-cevap yapabilen yerel yapay zeka asistanı.",
-            stack: ["LangChain", "ChromaDB", "Llama 3", "FastAPI"]
-          },
-          {
-            title: "Üretim Bandı İçin Hatalı Parça Tespiti",
-            difficulty: "Orta Seviye",
-            diffClass: "diff-orta",
-            desc: "Kamera görüntülerinden üretim hatalarını (çizik, kırık vb.) gerçek zamanlı tespit eden YOLO tabanlı bilgisayarlı görü modeli.",
-            stack: ["PyTorch", "YOLOv8", "OpenCV", "Streamlit"]
-          }
-        ]
-      },
-      web: {
-        id: "web",
-        title: "Full-Stack Web Geliştirme",
-        subtitle: "Modern Frontend, Backend, Bulut & API Mimarisi",
-        icon: "🌐",
-        color: "linear-gradient(135deg, #059669, #0284c7)",
-        tools: [
-          { name: "TypeScript", role: "Tip Güvenli JS", desc: "Büyük ölçekli web uygulamalarının temeli" },
-          { name: "React / Next.js", role: "Frontend", desc: "Sunucu taraflı render (SSR) ve bileşenler" },
-          { name: "Node.js / NestJS", role: "Backend", desc: "Ölçeklenebilir API ve mikroservis mimarisi" },
-          { name: "PostgreSQL & Prisma", role: "Veritabanı", desc: "İlişkisel veri modelleme ve ORM" },
-          { name: "Docker & AWS", role: "DevOps", desc: "Konteynerleştirme ve bulutta yayınlama" },
-          { name: "Tailwind CSS", role: "Arayüz", desc: "Hızlı ve esnek modern UI tasarımı" }
-        ],
-        roadmap: [
-          { id: "w1", title: "Modern Web & TypeScript Temeli", desc: "Asenkron JavaScript (Async/Await), DOM manipülasyonu ve TypeScript tip sistemini öğrenin." },
-          { id: "w2", title: "React & Modern UI Durum Yönetimi", desc: "React hooks, component lifecycles ve Tailwind CSS ile dinamik arayüzler inşa edin." },
-          { id: "w3", title: "Backend, RESTful & WebSocket API", desc: "Node.js/Express veya NestJS ile JWT tabanlı kimlik doğrulama ve gerçek zamanlı soket kanalları oluşturun." },
-          { id: "w4", title: "İlişkisel Veritabanları & Prisma ORM", desc: "PostgreSQL üzerinde indeksleme, migration ve transaction mekanizmalarını uygulayın." },
-          { id: "w5", title: "Next.js Tam Yığın Dağıtım & Docker", desc: "Full-Stack Next.js projesini Docker ile paketleyip CI/CD süreçleriyle buluta dağıtın." }
-        ],
-        projects: [
-          {
-            title: "Mühendislik Takımları İçin Gerçek Zamanlı Kanban",
-            difficulty: "Orta Seviye",
-            diffClass: "diff-orta",
-            desc: "Trello benzeri, birden fazla kullanıcının aynı anda kart sürükleyip mesajlaşabildiği canlı soket bağlantılı web platformu.",
-            stack: ["Next.js", "Socket.io", "PostgreSQL", "TailwindCSS"]
-          },
-          {
-            title: "Mikroservis Mimarili B2B SaaS Platformu",
-            difficulty: "İleri Seviye",
-            diffClass: "diff-ileri",
-            desc: "Abonelik sistemi (Stripe), rol bazlı yetkilendirme ve arka planda çalışan iş kuyrukları (BullMQ/Redis) barındıran tam teşekküllü web yazılımı.",
-            stack: ["NestJS", "Redis", "Docker", "Stripe API"]
-          }
-        ]
-      },
-      cyber: {
-        id: "cyber",
-        title: "Siber Güvenlik & Savunma",
-        subtitle: "Ağ Analizi, Sızma Testleri ve Güvenlik Mimarisi",
-        icon: "🛡️",
-        color: "linear-gradient(135deg, #e11d48, #4f46e5)",
-        tools: [
-          { name: "Linux / Kali", role: "İşletim Sistemi", desc: "Siber güvenlik analiz ve test ortamı" },
-          { name: "Wireshark", role: "Ağ Analizi", desc: "Paket yakalama ve protokol incelemesi" },
-          { name: "Burp Suite", role: "Web Güvenliği", desc: "Web uygulama zafiyet analizi" },
-          { name: "Python / Bash", role: "Otomasyon", desc: "Özel exploit ve tarama araçları yazma" },
-          { name: "Nmap & Metasploit", role: "Sızma Testi", desc: "Port tarama ve sistem zafiyeti tespiti" },
-          { name: "SIEM (Splunk)", role: "Savunma (Blue)", desc: "Log analizi ve tehdit avcılığı" }
-        ],
-        roadmap: [
-          { id: "c1", title: "Ağ Temelleri (TCP/IP) & Linux", desc: "OSI modeli, alt ağlar, DNS, yönlendirme ve Linux kabuk komutlarında uzmanlaşın." },
-          { id: "c2", title: "Zafiyet Taraması & Ağ Güvenliği", desc: "Nmap ile port keşfi, Wireshark ile paket analizi ve zafiyet veritabanlarını (CVE) inceleyin." },
-          { id: "c3", title: "Web Uygulama Güvenliği (OWASP Top 10)", desc: "SQL Injection, XSS, CSRF gibi kritik web açıklarını laboratuvar ortamlarında simüle edin." },
-          { id: "c4", title: "Sızma Testi & Ayrıcalık Yükseltme", desc: "Yetkisiz erişim sonrası sistemde root/admin yetkilerine tırmanma tekniklerini deneyimleyin." },
-          { id: "c5", title: "Blue Team: Log Analizi & Olay Müdahalesi", desc: "Saldırı izlerini SIEM araçlarında tespit edip savunma duvarları (WAF/Firewall) kurun." }
-        ],
-        projects: [
-          {
-            title: "Ağ Trafiğini İzleyen Akıllı Honeypot (Tuzak Sistem)",
-            difficulty: "İleri Seviye",
-            diffClass: "diff-ileri",
-            desc: "Saldırganları sahte servislere yönlendirip IP, port ve denedikleri şifre kombinasyonlarını kaydederek Telegram'a anlık bildirim atan sistem.",
-            stack: ["Python", "Docker", "Suricata", "Telegram Bot API"]
-          },
-          {
-            title: "Otomatik Web Zafiyet Tarayıcı Botu",
-            difficulty: "Orta Seviye",
-            diffClass: "diff-orta",
-            desc: "Hedef web adresindeki SSL sertifikalarını, açık header'ları ve bilinen dizin sızıntılarını tarayıp PDF raporu üreten CLI aracı.",
-            stack: ["Python", "Bash", "Requests", "ReportLab"]
-          }
-        ]
+    let selectedTopic = "";
+    let selectedLevel = "";
+
+    function goToScreen2() {
+      selectedTopic = document.getElementById("topic").value;
+      selectedLevel = document.getElementById("level").value;
+
+      let questionText = "";
+      if(selectedTopic.includes("Mikroişlemciler")) {
+        questionText = "💡 *Sokratik Soru:* Bir mikroişlemcide kesme (interrupt) mekanizması olmasaydı, sürekli işlemciyi meşgul eden 'polling' (sorgulama) yöntemi sistem performansını nasıl etkilerdi?";
+      } else if(selectedTopic.includes("Python")) {
+        questionText = "💡 *Sokratik Soru:* Grafik arayüzde (GUI) ana döngüyü (main loop) bloke eden uzun bir işlem çalıştırdığınızda arayüz neden donar? Bunu engellemek için nasıl bir mantık kurulabilir?";
+      } else {
+        questionText = "💡 *Sokratik Soru:* Bir sinyalin zaman ortamındaki gösterimi ile frekans ortamındaki gösterimi arasındaki temel fark nedir ve Fourier dönüşümü bize burada nasıl bir bakış açısı kazandırır?";
       }
-    };
 
-    // --- UYGULAMA DURUMU (STATE) ---
-    let currentTrack = null;
-    let completedSteps = JSON.parse(localStorage.getItem('eng_completed_steps') || "{}");
-
-    // --- ARAYÜZ YÖNETİMİ ---
-    function init() {
-      renderTrackList();
+      document.getElementById("socraticQuestion").innerHTML = questionText;
+      document.getElementById("screen1").classList.remove("active");
+      document.getElementById("screen2").classList.add("active");
     }
 
-    // Giriş alanındaki butonları bas
-    function renderTrackList() {
-      const container = document.getElementById('track-buttons-container');
-      container.innerHTML = "";
+    function goToScreen3() {
+      let answer = document.getElementById("userAnswer").value;
+      
+      document.getElementById("summaryTopic").innerText = selectedTopic;
+      document.getElementById("summaryLevel").innerText = selectedLevel;
 
-      Object.values(careerData).forEach(track => {
-        const card = document.createElement('div');
-        card.className = "track-card";
-        card.onclick = () => openTrack(track.id);
-
-        card.innerHTML = `
-          <div class="track-icon" style="background: ${track.color};">
-            ${track.icon}
-          </div>
-          <div class="track-info">
-            <h3>${track.title}</h3>
-            <p>${track.subtitle}</p>
-          </div>
-          <div class="track-arrow">›</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // Bir hedefe tıklandığında detay sayfasını yükle
-    function openTrack(trackId) {
-      currentTrack = careerData[trackId];
-      document.getElementById('screen-title').textContent = currentTrack.title;
-      document.getElementById('app-tag').textContent = "YOL HARİTASI";
-      document.getElementById('header-back-btn').style.display = "block";
-
-      document.getElementById('view-home').classList.remove('active');
-      document.getElementById('view-detail').classList.add('active');
-
-      switchTab('roadmap');
-      renderRoadmap();
-      renderTools();
-      renderProjects();
-      updateProgress();
-    }
-
-    // Geri Dön Butonu
-    function goHome() {
-      currentTrack = null;
-      document.getElementById('screen-title').textContent = "Kariyer Yolu Seçin";
-      document.getElementById('app-tag').textContent = "MÜHENDİSLİK ATLASI";
-      document.getElementById('header-back-btn').style.display = "none";
-
-      document.getElementById('view-detail').classList.remove('active');
-      document.getElementById('view-home').classList.add('active');
-    }
-
-    // Sekmeler Arası Geçiş
-    function switchTab(tabName) {
-      const tabs = ['roadmap', 'tools', 'projects'];
-      tabs.forEach(tab => {
-        document.getElementById(`tab-${tab}`).style.display = (tab === tabName) ? "block" : "none";
-      });
-
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach((btn, idx) => {
-        btn.classList.toggle('active', tabs[idx] === tabName);
-      });
-    }
-
-    // 1. Yol Haritası Render
-    function renderRoadmap() {
-      const container = document.getElementById('roadmap-items');
-      container.innerHTML = "";
-
-      currentTrack.roadmap.forEach((step, index) => {
-        const isDone = completedSteps[step.id] || false;
-        const stepEl = document.createElement('div');
-        stepEl.className = `roadmap-step ${isDone ? 'completed' : ''}`;
-        stepEl.onclick = () => toggleStep(step.id);
-
-        stepEl.innerHTML = `
-          <div class="step-checkbox"></div>
-          <div class="step-details">
-            <h4>${index + 1}. ${step.title}</h4>
-            <p>${step.desc}</p>
-          </div>
-        `;
-        container.appendChild(stepEl);
-      });
-    }
-
-    // Adım Tamamlama Toggle
-    function toggleStep(stepId) {
-      completedSteps[stepId] = !completedSteps[stepId];
-      localStorage.setItem('eng_completed_steps', JSON.stringify(completedSteps));
-      renderRoadmap();
-      updateProgress();
-    }
-
-    // İlerleme Çubuğu Güncelleme
-    function updateProgress() {
-      if (!currentTrack) return;
-      const total = currentTrack.roadmap.length;
-      const finished = currentTrack.roadmap.filter(s => completedSteps[s.id]).length;
-      const percentage = Math.round((finished / total) * 100);
-
-      document.getElementById('progress-bar').style.width = `${percentage}%`;
-      document.getElementById('progress-percent').textContent = `${percentage}% (${finished}/${total})`;
-    }
-
-    // 2. Araçlar Render
-    function renderTools() {
-      const container = document.getElementById('tools-items');
-      container.innerHTML = "";
-
-      currentTrack.tools.forEach(tool => {
-        const item = document.createElement('div');
-        item.className = "tool-badge";
-        item.innerHTML = `
-          <div class="tool-name">⚡ ${tool.name}</div>
-          <div class="tool-role">${tool.role}</div>
-          <div class="tool-desc">${tool.desc}</div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    // 3. Bitirme Projeleri Render
-    function renderProjects() {
-      const container = document.getElementById('projects-items');
-      container.innerHTML = "";
-
-      currentTrack.projects.forEach(proj => {
-        const card = document.createElement('div');
-        card.className = "project-card";
-
-        const stackChips = proj.stack.map(s => `<span class="stack-chip">${s}</span>`).join('');
-
-        card.innerHTML = `
-          <div class="project-card-header">
-            <div class="project-title">${proj.title}</div>
-            <span class="difficulty-tag ${proj.diffClass}">${proj.difficulty}</span>
-          </div>
-          <div class="project-desc">${proj.desc}</div>
-          <div class="project-stack">${stackChips}</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // İlerlemeyi Sıfırla
-    function resetProgress() {
-      if (confirm("Tüm adımlardaki ilerlemenizi sıfırlamak istiyor musunuz?")) {
-        completedSteps = {};
-        localStorage.removeItem('eng_completed_steps');
-        if (currentTrack) {
-          renderRoadmap();
-          updateProgress();
-        }
+      let feedback = "";
+      if (answer.trim().length < 10) {
+        feedback = "Cevabınız çok kısa. Sokratik yöntem derinlemesine düşünmeyi teşvik eder. Konuyla ilgili teknik dokümantasyonları ve temel kavramları tekrar gözden geçirmeniz önerilir.";
+      } else {
+        feedback = "Yaklaşımınız analiz edildi. Sorunu doğrudan ezberlemek yerine mantığını sorgulama eğiliminiz yüksek. Konuyla ilgili pratik projeler üreterek kavramsal bilginizi pekiştirebilirsiniz.";
       }
+
+      document.getElementById("summaryFeedback").innerText = feedback;
+      document.getElementById("screen2").classList.remove("active");
+      document.getElementById("screen3").classList.add("active");
     }
 
-    // Başlat
-    window.onload = init;
+    function restartApp() {
+      document.getElementById("userAnswer").value = "";
+      document.getElementById("screen3").classList.remove("active");
+      document.getElementById("screen1").classList.add("active");
+    }
   </script>
 </body>
 </html>
